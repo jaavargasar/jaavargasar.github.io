@@ -8,7 +8,7 @@ Cuando no programo me gusta leer, escuchar música o tocar el piano o la guitarr
 
 ## Proyecto + Taller ( Indagacion e implementacion del algoritmo warnock)
 
-la implementacion fue desarrollada en processing y se puede encontrar en el siguiente link [ Codigo implementacion](https://github.com/jaavargasar/jaavargasar.github.io/tree/master/warnock_v3)
+la implementacion fue desarrollada en processing y se puede encontrar en el siguiente link [ Codigo implementacion](https://github.com/jaavargasar/jaavargasar.github.io/blob/master/warnock_v3/warnock_v3.pde)
 
 <iframe src="https://drive.google.com/file/d/0Bwq59q6lDEYZcG9lTWxMYW5KZFU/preview" width="100%" height="800em"></iframe>
 
