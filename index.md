@@ -6,17 +6,7 @@ Estudiante de ingeniería de sistemas y computación de la universidad nacional 
 
 Cuando no programo me gusta leer, escuchar música o tocar el piano o la guitarra , también me gusta el mundo del cine viendo películas interesantes.
 
-{% highlight html %}
-{% raw %}
-<!DOCTYPE html>
-<html>
-  {% include head.html %}
-  <body>
-    <iframe src="https://drive.google.com/file/d/0Bwq59q6lDEYZcG9lTWxMYW5KZFU/preview" width="100%" height="800em"></iframe>
-  </body>
-</html>
-{% endraw %}
-{% endhighlight %}
+<iframe width="400" height="100" style="position: relative; display: block; width: 400px; height: 100px;" src="http://bandcamp.com/EmbeddedPlayer/v=2/album=1155301959/size=venti/bgcol=FFFFFF/linkcol=4285BB/transparent=true/" allowtransparency="true" frameborder="0"><a href="http://dirteater.dreyerprojects.info/album/ditie">Ditie by Dirt Eater</a></iframe>
 
 
 
