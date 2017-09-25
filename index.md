@@ -1,8 +1,11 @@
-## Welcome to GitHub Pages
+## Sobre mi
 
-You can use the [editor on GitHub](https://github.com/jaavargasar/jaavargasar.github.io/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+Nombre: Jaime Andres Vargas
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+Estudiante de ingeniería de sistemas y computación de la universidad nacional de colombia. He desarrollado proyectos en diferentes materias de la universidad, he competido en las maratones de programación, me gusta la parte de software, desarrollar aplicaciones ya sean móviles o web. 
+
+Cuando no programo me gusta leer, escuchar música o tocar el piano o la guitarra , también me gusta el mundo del cine viendo películas interesantes.
+
 
 ### Markdown
 
