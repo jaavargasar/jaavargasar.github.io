@@ -6,5 +6,5 @@ Estudiante de ingeniería de sistemas y computación de la universidad nacional 
 
 Cuando no programo me gusta leer, escuchar música o tocar el piano o la guitarra , también me gusta el mundo del cine viendo películas interesantes.
 
-<iframe src="https://docs.google.com/file/d/0B8aGkJVsdqiJdkdsUUtlMEJzQWM/preview" width="50%" height="50%"></iframe>
+<iframe src="https://drive.google.com/file/d/0Bwq59q6lDEYZcG9lTWxMYW5KZFU/preview" width="100%" height="800em"></iframe>
 
