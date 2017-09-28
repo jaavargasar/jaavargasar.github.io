@@ -37,19 +37,19 @@ El algoritmo warnock hace parte de los algoritmos de “Hidden Surface Removal (
 
 Ya conociendo las posibles relaciones dadas en la figura 1, para decidir si debemos renderizar la imagen contenida en el marco o si debemos seguir subdividiendo en cuatro partes iguales tenemos los siguientes casos:
 
-1. Encontramos que en el área actual, todos los polígonos son disjuntos, esto es que el área se encuentra vacía y ningún polígono de la lista se puede notar dentro de ella
+1.Encontramos que en el área actual, todos los polígonos son disjuntos, esto es que el área se encuentra vacía y ningún polígono de la lista se puede notar dentro de ella
 
 ![image-title-here](/pictures/3.png){:class="img-responsive"}
 
-2. Solo existe un polígono contenido dentro del marco en su totalidad o en una parte, ya sea que este sea intersecante con el marco
+2.Solo existe un polígono contenido dentro del marco en su totalidad o en una parte, ya sea que este sea intersecante con el marco
 
 ![image-title-here](/pictures/4.png){:class="img-responsive"}
 
-3. Hay un solo polígono que se encuentra completamente en el área y es circundante, esto es que la ocupa en su totalidad.
+3.Hay un solo polígono que se encuentra completamente en el área y es circundante, esto es que la ocupa en su totalidad.
 
 ![image-title-here](/pictures/5.png){:class="img-responsive"}
 
-4. Hay varios polígonos intersectados, solo que unos están encimas de otros, en este caso se mira el eje z y los cuatro vértices que forman el marco y al cual se le quiere dar visibilidad, en este caso se subdivide el área.
+4.Hay varios polígonos intersectados, solo que unos están encimas de otros, en este caso se mira el eje z y los cuatro vértices que forman el marco y al cual se le quiere dar visibilidad, en este caso se subdivide el área.
 
 ![image-title-here](/pictures/6.png){:class="img-responsive"}
 
