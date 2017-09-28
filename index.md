@@ -94,7 +94,7 @@ Dado que la imagen ya fue dada y no se renderizo , no teníamos las entradas que
 
 
 
-<iframe src="https://drive.google.com/file/d/0Bwq59q6lDEYZcG9lTWxMYW5KZFU/preview" width="100%" height="1000em"></iframe>
+<iframe src="https://drive.google.com/file/d/0B_ckGH57oj3ERXo2OEVXMmNQX0U/preview" width="100%" height="1000em"></iframe>
 
 
 
