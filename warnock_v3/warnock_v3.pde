@@ -9,7 +9,7 @@ final double EPS = 1e-9;
 
 float witdhRec = 200;
 float heightRec =100;
-boolean matrix[][][]= new boolean[600][600][50];
+boolean matrix[][][]= new boolean[601][601][51];
 
 
 ArrayList< List<point> > polygons =new ArrayList< List<point> >();
@@ -86,10 +86,21 @@ void addPolygons(){
    polygons.add( P);
 }
 
+void clearingMatrix(){
+   for(int i=0;i<601;i++)
+     for(int j=0;j<601;j++)
+        for(int z=0;z<51;z++)
+          matrix[i][j][z]=false;
+  
+  
+}
+
 
 void warnockAlgorithm(int x1,int y1,int y2, int x2){
   
   HashSet< List<point> > oncePolygons = new HashSet<List<point> >( );
+  clearingMatrix();
+  
   int counter=0;
   boolean isInsideAPolygon=false;
   
@@ -103,9 +114,9 @@ void warnockAlgorithm(int x1,int y1,int y2, int x2){
       
       for( List<point> A: polygons) { // all A in polygons
         
-        if( inPolygon( new point(x,y), A) ){ // (x,y) in A ?
+        if( inPolygon( new point(x,y,A.get(0).getZ() ), A) ){ // (x,y) in A ?
           
-          
+          matrix[x][y][(int)A.get(0).getZ()] =true;
           oncePolygons.add( A );  // check A in oncePolygons
            //if( !checkIfListinside( oncePolygons, A ) ) oncePolygons.add( A );   
         }
@@ -120,9 +131,10 @@ void warnockAlgorithm(int x1,int y1,int y2, int x2){
   
   if( counter == 0 ) return;
   if( counter == 1) return;
+  if( checkAllInside(x1,y1,y2,x2 ) ) return;
   
-  println( "after "+oncePolygons.size()+", de"+y1+" hasta"+x1+", y de"+y2+" hasta"+x2 );
- 
+  //println( "after "+oncePolygons.size()+", de"+y1+" hasta"+x1+", y de"+y2+" hasta"+x2 );
+  println("loading...");
   
     
 
@@ -137,6 +149,25 @@ void warnockAlgorithm(int x1,int y1,int y2, int x2){
   
 }
 
+
+
+boolean checkAllInside(int x1,int y1,int y2, int x2 ){
+  
+    int min=100;
+    
+    for( List<point> A: polygons)
+       min = min( min, (int) A.get(0).getZ() ); 
+    
+
+    boolean checking=true;
+    for ( int y = y1-1; y >=x1; y--) { //height
+      for ( int x = y2-1; x >= x2; x--) { //width
+         checking &= matrix[x][y][min];
+      }
+    }
+   
+    return checking;
+}
 
 
 
