@@ -7,6 +7,11 @@ final float ADD=200;
 final double EPS = 1e-9;
 //HashSet< ArrayList<point> > polygons = new HashSet<ArrayList<point> >( );
 
+float witdhRec = 200;
+float heightRec =100;
+boolean matrix[][][]= new boolean[600][600][50];
+
+
 ArrayList< List<point> > polygons =new ArrayList< List<point> >();
 
 void setup() {
@@ -16,29 +21,13 @@ void setup() {
   createPicture3();
   loadPixels();
   addPolygons();
-  //printPolygons();
-  //checkIfPointInsidePolygon();
   warnockAlgorithm(0,height,width,0);
+  //probando();
   println("end of program");
  
 }
 
 
-void checkIfPointInsidePolygon(){
-   point P6 = new point(3, 2);
-   point P7 = new point(3, 4); // inside this (concave) polygon
-   
-   List<point> P = new ArrayList<point>();
-    P.add(new point(1, 1));
-    P.add(new point(3, 3));
-    P.add(new point(9, 1));
-    P.add(new point(12, 4));
-    P.add(new point(9, 7));
-    P.add(new point(1, 7));
-    P.add(P.get(0));
-   println("Point P6 is inside this polygon = %b\n", inPolygon(P7, polygons.get(0) ) );
-  
-}
 
 void printPolygons(){
   println("inside printing polygons");
@@ -55,41 +44,44 @@ void createPicture3(){
   pushStyle();
   noStroke();
   fill(#FFFF00);//yellow color
+  
+  //triangle(100,120,150,50,300,120);
+  rect(100,50,200,100);
+  
+  
   //fill(#FF0000); //red color
-  triangle(200,50,300,120,100,100);
-  fill(#FF0000); //red color
-  triangle(200+ADD,50+ADD,300+ADD,120+ADD,100+ADD,100+ADD);
+  //triangle(100+ADD,100+ADD, 200+ADD,50+ADD,300+ADD,120+ADD);
+  
   
   fill(#FF0000); //red color
-  triangle(220,380,300,120,100,100);
+  //triangle(100,50,220,380,300,120);
+  rect(135,98,200,100);
   popStyle();
 }
   
 
 void addPolygons(){
-   List<point> P = new ArrayList<point>();
-   
-   P.add( new point(200,50) );
-   P.add( new point(300,120) );
-   P.add( new point(100,100) );
-   P.add(P.get(0)); // loop back
-   polygons.add( P);
-   
+ 
+   List<point> P;
    
    P = new ArrayList<point>();
    
-   P.add( new point(200+ADD,50+ADD) );
-   P.add( new point(300+ADD,120+ADD) );
-   P.add( new point(100+ADD,100+ADD) );
+   P.add( new point(100,50,5) );
+   P.add( new point(300,50,5) );
+   P.add( new point(300,150,5) );
+   P.add( new point(100,150,5) );
    P.add(P.get(0)); // loop back
    polygons.add( P);
    
-   
+  
+  
    P = new ArrayList<point>();
    
-   P.add( new point(220,380) );
-   P.add( new point(300,120) );
-   P.add( new point(100,100) );
+   
+   P.add( new point(135,98,1) );
+   P.add( new point(335,98,1) );
+   P.add( new point(335,198,1) );
+   P.add( new point(135,198,1) );
    P.add(P.get(0)); // loop back
    polygons.add( P);
 }
@@ -98,34 +90,24 @@ void addPolygons(){
 void warnockAlgorithm(int x1,int y1,int y2, int x2){
   
   HashSet< List<point> > oncePolygons = new HashSet<List<point> >( );
-  
- 
   int counter=0;
- 
-  
-  boolean isInManyPolygons=false;
+  boolean isInsideAPolygon=false;
   
   int iniPixel= x2 + x1*width;
   if( iniPixel>=360000) iniPixel=359999; 
  
-  println( "before "+oncePolygons.size());
-  
-  //oncePolygons.add( new ArrayList<point>() );
-  //println(" size of List of polygons "+polygons.size() );
   
   for ( int y = y1-1; y >=x1; y--) { //height
     for ( int x = y2-1; x >= x2; x--) { //width
-          
-  
-      for( List<point> A: polygons) {
+              
+      
+      for( List<point> A: polygons) { // all A in polygons
         
-       
-        if( inPolygon( new point(x,y), A) ){
-           //println("there is a point inside a polygon");
-           //if( !checkIfListinside( oncePolygons, A ) ) oncePolygons.add( A );
-            oncePolygons.add( A );
-            
-            
+        if( inPolygon( new point(x,y), A) ){ // (x,y) in A ?
+          
+          
+          oncePolygons.add( A );  // check A in oncePolygons
+           //if( !checkIfListinside( oncePolygons, A ) ) oncePolygons.add( A );   
         }
       
         
@@ -135,24 +117,27 @@ void warnockAlgorithm(int x1,int y1,int y2, int x2){
   }
   
   counter= oncePolygons.size();
-  println( "after "+oncePolygons.size());
-  //return;
   
-  if( counter>1){ //before: 2
+  if( counter == 0 ) return;
+  if( counter == 1) return;
+  
+  println( "after "+oncePolygons.size()+", de"+y1+" hasta"+x1+", y de"+y2+" hasta"+x2 );
+ 
+  
     
-      //strokeWeight(2);
-      line( x2+(y2-x2)/2, x1, x2+(y2-x2)/2, y1);
-      line(x2, x1+(y1-x1)/2, y2, x1+(y1-x1)/2 );
+
+  line( x2+(y2-x2)/2, x1, x2+(y2-x2)/2, y1);
+  line(x2, x1+(y1-x1)/2, y2, x1+(y1-x1)/2 );
            
-      warnockAlgorithm( x1+(y1-x1)/2,y1,y2,x2+(y2-x2)/2);
-      warnockAlgorithm( x1,x1+(y1-x1)/2,y2,x2+(y2-x2)/2);
-      warnockAlgorithm(x1,x1+(y1-x1)/2,x2+(y2-x2)/2,x2);
-      warnockAlgorithm(x1+(y1-x1)/2,y1,x2+(y2-x2)/2,x2);
-
-  }
-
+  warnockAlgorithm( x1+(y1-x1)/2,y1,y2,x2+(y2-x2)/2);
+  warnockAlgorithm( x1,x1+(y1-x1)/2,y2,x2+(y2-x2)/2);
+  warnockAlgorithm(x1,x1+(y1-x1)/2,x2+(y2-x2)/2,x2);
+  warnockAlgorithm(x1+(y1-x1)/2,y1,x2+(y2-x2)/2,x2);
   return;
+  
 }
+
+
 
 
 boolean checkIfListinside(  HashSet< List<point> > A, List<point> B){
@@ -201,9 +186,11 @@ boolean inPolygon(point pt, List<point> P) {
     // returns true if point r is on the left side of line pq
 boolean ccw(point p, point q, point r) {
   
-  return cross(toVec(p, q), toVec(p, r)) >= 0; 
-}                         // this polygon is convex
-      
+  return ( cross(toVec(p, q), toVec(p, r)) >0 || collinear(p,q,r) );
+}          // this polygon is convex
+
+boolean collinear(point p, point q, point r) {
+      return Math.abs(cross(toVec(p, q), toVec(p, r))) < EPS; }
       
 vec toVec(point a, point b) {               // convert 2 points to vector
    return new vec(b.x - a.x, b.y - a.y); 
