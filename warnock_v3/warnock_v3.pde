@@ -40,20 +40,11 @@ void printPolygons(){
 }
 
 void createPicture3(){
-  
-  
-  
   //triangle(100,120,150,50,300,120);
-  
-  
-  
   //fill(#FF0000); //red color
   //triangle(100+ADD,100+ADD, 200+ADD,50+ADD,300+ADD,120+ADD);
-  
-  
   //red color
   //triangle(100,50,220,380,300,120);
-  
   popStyle();
 }
   
@@ -245,7 +236,7 @@ boolean inPolygon(point pt, List<point> P) {
     // returns true if point r is on the left side of line pq
 boolean ccw(point p, point q, point r) {
   
-  return ( cross(toVec(p, q), toVec(p, r)) >0 || collinear(p,q,r) );
+  return ( cross(toVec(p, q), toVec(p, r)) >=0 || collinear(p,q,r) );
 }          // this polygon is convex
 
 boolean collinear(point p, point q, point r) {
