@@ -18,11 +18,10 @@ void setup() {
   size(600, 600);
   background(250);
 
-  createPicture3();
-  loadPixels();
   addPolygons();
+  loadPixels();
+  
   warnockAlgorithm(0,height,width,0);
-  //probando();
   println("end of program");
  
 }
@@ -41,27 +40,31 @@ void printPolygons(){
 }
 
 void createPicture3(){
-  pushStyle();
-  noStroke();
-  fill(#FFFF00);//yellow color
+  
+  
   
   //triangle(100,120,150,50,300,120);
-  rect(100,50,200,100);
+  
   
   
   //fill(#FF0000); //red color
   //triangle(100+ADD,100+ADD, 200+ADD,50+ADD,300+ADD,120+ADD);
   
   
-  fill(#FF0000); //red color
+  //red color
   //triangle(100,50,220,380,300,120);
-  rect(135,98,200,100);
+  
   popStyle();
 }
   
 
 void addPolygons(){
- 
+   
+   pushStyle();
+   noStroke();
+   
+   
+   
    List<point> P;
    
    P = new ArrayList<point>();
@@ -73,8 +76,11 @@ void addPolygons(){
    P.add(P.get(0)); // loop back
    polygons.add( P);
    
+   fill(#FFFF00);
+   rect(100,50,200,100);
+   
   
-  
+   
    P = new ArrayList<point>();
    
    
@@ -84,6 +90,11 @@ void addPolygons(){
    P.add( new point(135,198,1) );
    P.add(P.get(0)); // loop back
    polygons.add( P);
+   
+   fill(#FF0000); 
+   rect(135,98,200,100);
+   
+   popStyle();
 }
 
 void clearingMatrix(){
@@ -102,8 +113,6 @@ void warnockAlgorithm(int x1,int y1,int y2, int x2){
   clearingMatrix();
   
   int counter=0;
-  boolean isInsideAPolygon=false;
-  
   int iniPixel= x2 + x1*width;
   if( iniPixel>=360000) iniPixel=359999; 
  
@@ -133,6 +142,8 @@ void warnockAlgorithm(int x1,int y1,int y2, int x2){
   if( counter == 1) return;
   if( checkAllInside(x1,y1,y2,x2 ) ) return;
   
+ 
+  
   //println( "after "+oncePolygons.size()+", de"+y1+" hasta"+x1+", y de"+y2+" hasta"+x2 );
   println("loading...");
   
@@ -149,7 +160,24 @@ void warnockAlgorithm(int x1,int y1,int y2, int x2){
   
 }
 
-
+boolean checkPolInside(int x1,int y1,int y2,int x2){
+  
+  int count=0;
+  for ( int y = y1-1; y >=x1; y--) { //height
+      for ( int x = y2-1; x >= x2; x--) { //width
+         for( List<point> A: polygons){
+            if( matrix[x][y][(int) A.get(0).getZ() ] ){
+               count++;
+               break;
+            }
+         }
+      
+      }
+    }
+    
+    if( ( y1-1-x1 * y2-1-x2) ==count) return true;
+    return false;
+}
 
 boolean checkAllInside(int x1,int y1,int y2, int x2 ){
   
