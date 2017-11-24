@@ -9,21 +9,80 @@ final double EPS = 1e-9;
 
 float witdhRec = 200;
 float heightRec =100;
-boolean matrix[][][]= new boolean[601][601][51];
+boolean matrix[][][]= new boolean[901][701][51];
 
 
 ArrayList< List<point> > polygons =new ArrayList< List<point> >();
 
 void setup() {
-  size(600, 600);
+  size(901, 700);
   background(250);
 
-  addPolygons();
+  //addPolygons();
+  addRandomPolygons();
   loadPixels();
   
-  warnockAlgorithm(0,height,width,0);
+  warnockAlgorithm(0,height,width,0,0);
   println("end of program");
+  println(polygons.size());
  
+}
+
+void addRandomPolygons(){
+  pushStyle();
+  noStroke();
+  
+   
+   int many=(int)random(3,5);
+   List<point> P;
+   
+   for(int times=0;times<many;times++){
+   
+  
+     P = new ArrayList<point>();
+   
+     float x,y,z,w,h;
+     
+     x=random(400);
+     y=random(400);
+     w=random(50,201);
+     h=random(50,201);
+     z=random(5,51);
+     
+     
+     P.add( new point(x,y,z) );
+     P.add( new point(x+w,y,z) );
+     P.add( new point(x+w,y+h,z) );
+     P.add( new point(x,y+h,z) );
+     P.add(P.get(0)); // loop back
+     polygons.add( P);
+     
+     fill( random(5,255),random(5,255),random(5,255) );
+     rect(x,y,w,h);
+   
+   }
+   //special case
+   stroke(1);
+   P = new ArrayList<point>();
+   double x=polygons.get(0).get(0).getX()+30;
+   double y=polygons.get(0).get(0).getY()+30;
+   double z=1.0;
+   float w=random(50,150);
+   float h=random(50,150);
+     
+   P.add( new point(x,y,z) );
+   P.add( new point(x+w,y,z) );
+   P.add( new point(x+w,y+h,z) );
+   P.add( new point(x,y+h,z) );
+   P.add(P.get(0)); // loop back
+   polygons.add( P);
+     
+   fill( random(5,255),random(5,255),random(5,255) );
+   rect((float )x,(float )y,w,h);
+   
+   
+   popStyle();
+  
 }
 
 
@@ -98,14 +157,15 @@ void clearingMatrix(){
 }
 
 
-void warnockAlgorithm(int x1,int y1,int y2, int x2){
+void warnockAlgorithm(int x1,int y1,int y2, int x2,int times){
   
+  if( times==7) return;
   HashSet< List<point> > oncePolygons = new HashSet<List<point> >( );
   clearingMatrix();
   
   int counter=0;
   int iniPixel= x2 + x1*width;
-  if( iniPixel>=360000) iniPixel=359999; 
+  if( iniPixel>=width*height) iniPixel=width*height -1 ; 
  
   
   for ( int y = y1-1; y >=x1; y--) { //height
@@ -136,17 +196,17 @@ void warnockAlgorithm(int x1,int y1,int y2, int x2){
  
   
   //println( "after "+oncePolygons.size()+", de"+y1+" hasta"+x1+", y de"+y2+" hasta"+x2 );
-  println("loading...");
+  println("loading... "+times);
   
     
 
   line( x2+(y2-x2)/2, x1, x2+(y2-x2)/2, y1);
   line(x2, x1+(y1-x1)/2, y2, x1+(y1-x1)/2 );
            
-  warnockAlgorithm( x1+(y1-x1)/2,y1,y2,x2+(y2-x2)/2);
-  warnockAlgorithm( x1,x1+(y1-x1)/2,y2,x2+(y2-x2)/2);
-  warnockAlgorithm(x1,x1+(y1-x1)/2,x2+(y2-x2)/2,x2);
-  warnockAlgorithm(x1+(y1-x1)/2,y1,x2+(y2-x2)/2,x2);
+  warnockAlgorithm( x1+(y1-x1)/2,y1,y2,x2+(y2-x2)/2,times+1);
+  warnockAlgorithm( x1,x1+(y1-x1)/2,y2,x2+(y2-x2)/2,times+1);
+  warnockAlgorithm(x1,x1+(y1-x1)/2,x2+(y2-x2)/2,x2,times+1);
+  warnockAlgorithm(x1+(y1-x1)/2,y1,x2+(y2-x2)/2,x2,times+1);
   return;
   
 }
