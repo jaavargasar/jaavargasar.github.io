@@ -5,28 +5,119 @@ import java.util.*;
 
 final float ADD=200;
 final double EPS = 1e-9;
-//HashSet< ArrayList<point> > polygons = new HashSet<ArrayList<point> >( );
 
-float witdhRec = 200;
-float heightRec =100;
-boolean matrix[][][]= new boolean[901][701][51];
-
-
+boolean matrix[][][]= new boolean[451][351][350];
 ArrayList< List<point> > polygons =new ArrayList< List<point> >();
+
+ArrayList<Float> coldx = new ArrayList<Float>();
+ArrayList<Float> coldy = new ArrayList<Float>();
+ArrayList<Float> coldz = new ArrayList<Float>();
+
 
 void setup() {
   size(901, 700);
   background(250);
+  
+  addLines();
 
   //addPolygons();
   addRandomPolygons();
   loadPixels();
   
-  warnockAlgorithm(0,height,width,0,0);
+  
+  warnockAlgorithm(0,351,451,0,0);
+  addFaceSide();
+  addFaceUp();
+  addFaceDown();
   println("end of program");
   println(polygons.size());
  
 }
+
+void addFaceDown(){
+  pushStyle();
+  int cnt=0;
+  
+  for( List<point> A: polygons){
+     
+     float x=(float) A.get(0).getX();
+     float  lng = (float) A.get(2).getX();
+     float z= (float) A.get(0).getZ();
+    
+     color c = color( coldx.get(cnt),coldy.get(cnt),coldz.get(cnt) );
+     stroke( c );
+     strokeWeight(4);  // Thicker
+     
+     line(x+450,z+350,lng+450,z+350);
+     cnt++;
+    
+  }
+  popStyle();
+  
+  
+}
+
+void addFaceUp(){
+  pushStyle();
+  int cnt=0;
+  
+  for( List<point> A: polygons){
+     
+     float x=(float) A.get(0).getX();
+     float  lng = (float) A.get(2).getX();
+     float z= (float) A.get(0).getZ();
+    
+     color c = color( coldx.get(cnt),coldy.get(cnt),coldz.get(cnt) );
+     stroke( c );
+     strokeWeight(4);  // Thicker
+     
+     line(x+450,350-z,lng+450,350-z);
+     cnt++;
+    
+  }
+  popStyle();
+  
+  
+}
+
+
+
+
+
+void addFaceSide(){
+  pushStyle();
+  int cnt=0;
+  
+  for( List<point> A: polygons){
+     
+     float y=(float) A.get(0).getY();
+     float  lng = (float) A.get(2).getY();
+     float z= (float) A.get(0).getZ();
+    
+     color c = color( coldx.get(cnt),coldy.get(cnt),coldz.get(cnt) );
+     stroke( c );
+     strokeWeight(4);  // Thicker
+     line(z,y+350,z,lng+350);
+     cnt++;
+    
+  }
+  popStyle();
+  
+}
+
+void addLines(){
+  
+ pushStyle();
+ stroke(204, 102, 0);
+ int x1=0,y1=700,x2=900,y2=0;
+ line( x2+(y2-x2)/2, x1, x2+(y2-x2)/2, y1);
+ line(x2, x1+(y1-x1)/2, y2, x1+(y1-x1)/2 );
+ 
+ popStyle();
+  
+}
+
+
 
 void addRandomPolygons(){
   pushStyle();
@@ -36,18 +127,20 @@ void addRandomPolygons(){
    int many=(int)random(3,5);
    List<point> P;
    
+   float z=350;
+   
    for(int times=0;times<many;times++){
    
   
      P = new ArrayList<point>();
    
-     float x,y,z,w,h;
+     float x,y,w,h;
      
-     x=random(400);
-     y=random(400);
-     w=random(50,201);
-     h=random(50,201);
-     z=random(5,51);
+     x=random(300);
+     y=random(200);
+     w=random(50,150);
+     h=random(50,150);
+     z-=45;
      
      
      P.add( new point(x,y,z) );
@@ -57,18 +150,21 @@ void addRandomPolygons(){
      P.add(P.get(0)); // loop back
      polygons.add( P);
      
-     fill( random(5,255),random(5,255),random(5,255) );
+     float coli=random(5,255), colj=random(5,255), colk=random(5,255);
+     fill( coli,colj,colk );
+     coldx.add(coli); coldy.add(colj); coldz.add(colk);
+
      rect(x,y,w,h);
    
    }
    //special case
-   stroke(1);
+   //stroke(1);
    P = new ArrayList<point>();
    double x=polygons.get(0).get(0).getX()+30;
    double y=polygons.get(0).get(0).getY()+30;
-   double z=1.0;
-   float w=random(50,150);
-   float h=random(50,150);
+   z=100;
+   float w=random(50,115);
+   float h=random(50,100);
      
    P.add( new point(x,y,z) );
    P.add( new point(x+w,y,z) );
@@ -77,36 +173,15 @@ void addRandomPolygons(){
    P.add(P.get(0)); // loop back
    polygons.add( P);
      
-   fill( random(5,255),random(5,255),random(5,255) );
+   float coli=random(5,255), colj=random(5,255), colk=random(5,255);
+   fill( coli,colj,colk );
+   coldx.add(coli); coldy.add(colj); coldz.add(colk);
    rect((float )x,(float )y,w,h);
    
    
    popStyle();
   
 }
-
-
-
-void printPolygons(){
-  println("inside printing polygons");
-  addPolygons();
-  //for( List<point> A: polygons){
-  //   for(int i=0;i<A.size();i++) println( A.get(i).getX()+" "+A.get(i).getY());
-  //   println();
-  //}
-  for(int i=0;i< polygons.get(0).size(); i++)
-    println( polygons.get(0).get(i).getX()+" "+polygons.get(0).get(i).getY());
-}
-
-void createPicture3(){
-  //triangle(100,120,150,50,300,120);
-  //fill(#FF0000); //red color
-  //triangle(100+ADD,100+ADD, 200+ADD,50+ADD,300+ADD,120+ADD);
-  //red color
-  //triangle(100,50,220,380,300,120);
-  popStyle();
-}
-  
 
 void addPolygons(){
    
@@ -148,9 +223,9 @@ void addPolygons(){
 }
 
 void clearingMatrix(){
-   for(int i=0;i<601;i++)
-     for(int j=0;j<601;j++)
-        for(int z=0;z<51;z++)
+   for(int i=0;i<450;i++)
+     for(int j=0;j<350;j++)
+        for(int z=0;z<350;z++)
           matrix[i][j][z]=false;
   
   
@@ -159,13 +234,13 @@ void clearingMatrix(){
 
 void warnockAlgorithm(int x1,int y1,int y2, int x2,int times){
   
-  if( times==7) return;
+  if( times==5) return;
   HashSet< List<point> > oncePolygons = new HashSet<List<point> >( );
   clearingMatrix();
   
   int counter=0;
-  int iniPixel= x2 + x1*width;
-  if( iniPixel>=width*height) iniPixel=width*height -1 ; 
+  int iniPixel= x2 + x1*450;
+  if( iniPixel>=450*350) iniPixel=450*350 -1 ; 
  
   
   for ( int y = y1-1; y >=x1; y--) { //height
@@ -176,6 +251,7 @@ void warnockAlgorithm(int x1,int y1,int y2, int x2,int times){
         
         if( inPolygon( new point(x,y,A.get(0).getZ() ), A) ){ // (x,y) in A ?
           
+          //println(x,y,(int)A.get(0).getZ() );
           matrix[x][y][(int)A.get(0).getZ()] =true;
           oncePolygons.add( A );  // check A in oncePolygons
            //if( !checkIfListinside( oncePolygons, A ) ) oncePolygons.add( A );   
@@ -191,12 +267,12 @@ void warnockAlgorithm(int x1,int y1,int y2, int x2,int times){
   
   if( counter == 0 ) return;
   if( counter == 1) return;
-  if( checkAllInside(x1,y1,y2,x2 ) ) return;
+  if( checkAllInside(x1,y1,y2,x2,oncePolygons ) ) return;
   
  
   
   //println( "after "+oncePolygons.size()+", de"+y1+" hasta"+x1+", y de"+y2+" hasta"+x2 );
-  println("loading... "+times);
+  println("loading... ");
   
     
 
@@ -210,6 +286,25 @@ void warnockAlgorithm(int x1,int y1,int y2, int x2,int times){
   return;
   
 }
+
+boolean checkAllInside(int x1,int y1,int y2, int x2,HashSet< List<point> > OP ){
+  
+    int min=100;
+    
+    for( List<point> A: OP)
+       min = min( min, (int) A.get(0).getZ() ); 
+    
+
+    boolean checking=true;
+    for ( int y = y1-1; y >=x1; y--) { //height
+      for ( int x = y2-1; x >= x2; x--) { //width
+         checking &= matrix[x][y][min];
+      }
+    }
+   
+    return checking;
+}
+
 
 boolean checkPolInside(int x1,int y1,int y2,int x2){
   
@@ -230,23 +325,7 @@ boolean checkPolInside(int x1,int y1,int y2,int x2){
     return false;
 }
 
-boolean checkAllInside(int x1,int y1,int y2, int x2 ){
-  
-    int min=100;
-    
-    for( List<point> A: polygons)
-       min = min( min, (int) A.get(0).getZ() ); 
-    
 
-    boolean checking=true;
-    for ( int y = y1-1; y >=x1; y--) { //height
-      for ( int x = y2-1; x >= x2; x--) { //width
-         checking &= matrix[x][y][min];
-      }
-    }
-   
-    return checking;
-}
 
 
 
