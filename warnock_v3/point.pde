@@ -1,27 +1,27 @@
 class point implements Comparable<point>{
    
-  double x, y,z;                   // only used if more precision is needed
+  double x, y,z;                   
   
   point() { 
     x = y = z =0.0; 
-  }                         // default constructor
+  }                      
   
   point(double _x, double _y, double _z) { 
       x = _x; 
       y = _y; 
       this.z= _z;
-  }         // user-defined
+  }         
    
-   // use EPS (1e-9) when testing equality of two floating points
-  public int compareTo(point other) {      // override less than operator
+ 
+  public int compareTo(point other) {      
       
-      if (Math.abs(x - other.x) > EPS)                // useful for sorting
-         return (int)Math.ceil(x - other.x);       // first: by x-coordinate
+      if (Math.abs(x - other.x) > EPS)               
+         return (int)Math.ceil(x - other.x);       
         
       else if (Math.abs(y - other.y) > EPS)
-         return (int)Math.ceil(y - other.y);      // second: by y-coordinate
+         return (int)Math.ceil(y - other.y);      
      
-     else if( Math.abs( z- other.z) >EPS)
+      else if( Math.abs( z- other.z) >EPS)
          return (int)Math.ceil(z-other.z);
      
       else
@@ -41,4 +41,4 @@ class point implements Comparable<point>{
  
    }
     
-};                                    // they are equal
+};                                    

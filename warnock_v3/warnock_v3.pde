@@ -7,14 +7,16 @@
 import java.util.*;
 
 
+//Global Variables
 final float ADD=200;
 final double EPS = 1e-9;
 final int END=4;
 
-boolean matrix[][][]= new boolean[451][351][350];
-ArrayList< List<point> > polygons =new ArrayList< List<point> >();
+boolean matrix[][][]= new boolean[451][351][350]; //check depth of a pixel
+ArrayList< List<point> > polygons =new ArrayList< List<point> >(); //List of polygons
 
-ArrayList<Float> coldx = new ArrayList<Float>();
+//Arrays of Colors
+ArrayList<Float> coldx = new ArrayList<Float>(); 
 ArrayList<Float> coldy = new ArrayList<Float>();
 ArrayList<Float> coldz = new ArrayList<Float>();
 
@@ -23,10 +25,9 @@ void setup() {
   size(901, 700);
   background(250);
   
-  addLines();
+  addLines(); //Add initial and central red lines
 
-  //addPolygons();
-  addRandomPolygons();
+  addRandomPolygons(); //Add rectangles random
   loadPixels();
   
   
@@ -35,10 +36,10 @@ void setup() {
   addFaceUp();
   addFaceDown();
   println("end of program");
-  //println(polygons.size());
  
 }
 
+//Show Face down of the scene
 void addFaceDown(){
   pushStyle();
   int cnt=0;
@@ -62,6 +63,7 @@ void addFaceDown(){
   
 }
 
+//show face up of the scene
 void addFaceUp(){
   pushStyle();
   int cnt=0;
@@ -86,9 +88,7 @@ void addFaceUp(){
 }
 
 
-
-
-
+//show face of the right side of the scene
 void addFaceSide(){
   pushStyle();
   int cnt=0;
@@ -110,6 +110,7 @@ void addFaceSide(){
   
 }
 
+//Add initial and central red lines
 void addLines(){
   
  pushStyle();
@@ -123,7 +124,7 @@ void addLines(){
 }
 
 
-
+//Add Random rectangles in any position (x,y,z)
 void addRandomPolygons(){
   pushStyle();
   noStroke();
@@ -188,6 +189,7 @@ void addRandomPolygons(){
   
 }
 
+//Proof of a static scene
 void addPolygons(){
    
    pushStyle();
@@ -227,6 +229,7 @@ void addPolygons(){
    popStyle();
 }
 
+//Clear if a pixel was check already
 void clearingMatrix(){
    for(int i=0;i<450;i++)
      for(int j=0;j<350;j++)
@@ -237,6 +240,7 @@ void clearingMatrix(){
 }
 
 
+//WARNOCK ALGORITHM
 void warnockAlgorithm(int x1,int y1,int y2, int x2,int times){
   
   if( times==END) return;
@@ -292,6 +296,7 @@ void warnockAlgorithm(int x1,int y1,int y2, int x2,int times){
   
 }
 
+//Z Case: check the depth of the rectangles and which one is over who
 boolean checkAllInside(int x1,int y1,int y2, int x2,HashSet< List<point> > OP ){
   
     int min=100;
@@ -311,6 +316,7 @@ boolean checkAllInside(int x1,int y1,int y2, int x2,HashSet< List<point> > OP ){
 }
 
 
+//Check if a polygon is already inside List of polygons
 boolean checkPolInside(int x1,int y1,int y2,int x2){
   
   int count=0;
@@ -333,7 +339,7 @@ boolean checkPolInside(int x1,int y1,int y2,int x2){
 
 
 
-
+//Check if a list of points is inside a polygon
 boolean checkIfListinside(  HashSet< List<point> > A, List<point> B){
   int count=0;
   
@@ -353,60 +359,66 @@ boolean checkIfListinside(  HashSet< List<point> > A, List<point> B){
 }
 
 
-// returns true if point p is in either convex/concave polygon P
-
+// returns true if a point is inside a convex polygon
 boolean inPolygon(point pt, List<point> P) {
     
     if ((int)P.size() == 0) return false;
     
-    double sum = 0; // assume first vertex = last vertex
+    double sum = 0; 
     
     for (int i = 0; i < (int)P.size()-1; i++) {
       
-      if (ccw(pt, P.get(i), P.get(i+1)))
-        sum += angle(P.get(i), pt, P.get(i+1));   // left turn/ccw
+      if (checkingPointsAndSides(pt, P.get(i), P.get(i+1)))
+        sum += angle(P.get(i), pt, P.get(i+1));  
       
       else 
         sum -= angle(P.get(i), pt, P.get(i+1)); 
       
-    } // right turn/cw
+    } 
     
     return Math.abs(Math.abs(sum) - 2*Math.PI) < EPS; 
 
 }
 
 
-// note: to accept collinear points, we have to change the `> 0'
-    // returns true if point r is on the left side of line pq
-boolean ccw(point p, point q, point r) {
+
+// returns true if point r is on the left side of line pq
+boolean checkingPointsAndSides(point p, point q, point r) {
   
   return ( cross(toVec(p, q), toVec(p, r)) >=0 || collinear(p,q,r) );
-}          // this polygon is convex
+}        
 
+//check case collinear points
 boolean collinear(point p, point q, point r) {
-      return Math.abs(cross(toVec(p, q), toVec(p, r))) < EPS; }
-      
-vec toVec(point a, point b) {               // convert 2 points to vector
-   return new vec(b.x - a.x, b.y - a.y); 
+  return Math.abs(cross(toVec(p, q), toVec(p, r))) < EPS; 
 }
       
       
+//return a vector of P(a,b)
+vec toVec(point a, point b) {            
+   return new vec(b.x - a.x, b.y - a.y); 
+}
+      
+//cross product
 double cross(vec a, vec b) { 
   return a.x * b.y - a.y * b.x; 
 }
 
 
-double angle(point a, point o, point b) {     // returns angle aob in rad
+//return angle of vector(a,o,b)
+double angle(point a, point o, point b) {     
    vec oa = toVec(o, a), ob = toVec(o, b);
       
-   return Math.acos(dot(oa, ob) / Math.sqrt(norm_sq(oa) * norm_sq(ob))); 
+   return Math.acos(dot(oa, ob) / Math.sqrt(normDistance(oa) * normDistance(ob))); 
 }
+   
       
+//DOT product
 double dot(vec a, vec b) { 
   return (a.x * b.x + a.y * b.y); 
 }
 
-
-double norm_sq(vec v) { 
+//norm of a vector
+double normDistance(vec v) { 
   return v.x * v.x + v.y * v.y; 
 }

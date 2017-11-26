@@ -1,5 +1,5 @@
 class vec { 
-  double x, y;     // name: `vec' is different from Java Vector
+  double x, y;     
       
   vec(double _x, double _y) { 
     x = _x; 
