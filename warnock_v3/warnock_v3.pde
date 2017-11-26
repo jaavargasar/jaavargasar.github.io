@@ -1,10 +1,15 @@
 //Jaime Andres Vargas Arevalo 
+//National University from Colombia
+//Github: https://github.com/jaavargasar
+//Webpage: https://jaavargasar.github.io/
+//Code: https://github.com/jaavargasar/jaavargasar.github.io/tree/master/warnock_v3
 
 import java.util.*;
 
 
 final float ADD=200;
 final double EPS = 1e-9;
+final int END=4;
 
 boolean matrix[][][]= new boolean[451][351][350];
 ArrayList< List<point> > polygons =new ArrayList< List<point> >();
@@ -30,7 +35,7 @@ void setup() {
   addFaceUp();
   addFaceDown();
   println("end of program");
-  println(polygons.size());
+  //println(polygons.size());
  
 }
 
@@ -234,7 +239,7 @@ void clearingMatrix(){
 
 void warnockAlgorithm(int x1,int y1,int y2, int x2,int times){
   
-  if( times==5) return;
+  if( times==END) return;
   HashSet< List<point> > oncePolygons = new HashSet<List<point> >( );
   clearingMatrix();
   
